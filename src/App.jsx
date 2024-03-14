@@ -17,6 +17,7 @@ import Planes from './components/adminPanel/Planes';
 import { useEffect } from 'react';
 import TablaVentas from './components/adminPanel/tableVentas';
 import ProductCard from './components/cards/Products';
+import BusinessCard from './components/cards/Business';
 import './App.css';
 
 function App() {
@@ -57,8 +58,13 @@ function App() {
               price: 100,
               hasDelivery: true
             }}/>} />
+            <Route path="/pruebas2" element={<BusinessCard business={{
+              coverImageUrl: img,
+              profileImageUrl: img,
+              businessName: 'Nombre del negocio'
+            }}/>} />
+              
       </Routes>
-      <h1>hola mundos</h1>
     </>
   );
 }
