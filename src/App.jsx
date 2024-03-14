@@ -18,6 +18,8 @@ import { useEffect } from 'react';
 import TablaVentas from './components/adminPanel/tableVentas';
 import ProductCard from './components/cards/Products';
 import BusinessCard from './components/cards/Business';
+import Category from './components/cards/Category';
+import CreateEvent from './components/adminPanel/CreateEvent';
 import './App.css';
 
 function App() {
@@ -63,7 +65,8 @@ function App() {
               profileImageUrl: img,
               businessName: 'Nombre del negocio'
             }}/>} />
-              
+            <Route path="/pruebas3" element={<Category categoryName="Nombre de la categoría" />} />
+            <Route path="/pruebas4" element={<CreateEvent />} />
       </Routes>
     </>
   );

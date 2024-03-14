@@ -10,7 +10,6 @@ import Avatar from '@mui/material/Avatar'; // Componente de Avatar
 import Campaign from '@mui/icons-material/Campaign'; // Icono de campaña
 import HomeComp from '../HomeComp'; // Componente de inicio
 import CartComp from '../CartComp'; // Componente de carrito de compras
-// import ProfileComp from '../ProfileComp'; // Componente de perfil
 
 // Componentes para mostrar
 const Calendar = () => <Box>Calendar</Box>;
