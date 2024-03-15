@@ -4,6 +4,7 @@ import { Edit } from '@mui/icons-material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import img from '../../assets/images/img107.jpg'
+import EventsImagesUpload from '../EventsImagesUpload';
 
 
 const CreateEvent = () => {
@@ -15,8 +16,8 @@ const CreateEvent = () => {
     const [tableReservations, setTableReservations] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleImageUpload = (event) => {
-        // Lógica para cargar la imagen
+    const handleImageUpload = (file) => {
+        setEventImage(file);
     };
 
     const handleCreateEvent = () => {
@@ -52,7 +53,9 @@ const CreateEvent = () => {
                 <TextField value={tableReservations} onChange={(e) => setTableReservations(e.target.value)} InputProps={{ sx: { borderRadius: 5 }, }} />
             </Box>
             <Button variant="contained" color="primary" onClick={handleCreateEvent} sx={{ borderRadius: 3, mb: 2, bgcolor: 'rgb(20, 20, 20)', color: 'common.white' }} fullWidth>CREAR EVENTO</Button>
-            <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}><p>algo</p></Modal>
+            <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+                <EventsImagesUpload handleImageUpload={handleImageUpload}></EventsImagesUpload>
+            </Modal>
         </Box>
     );
 };
