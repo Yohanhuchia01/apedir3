@@ -53,11 +53,7 @@ const Login = () => {
                     label="usuario@gmail.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    sx={{
-                        backgroundColor: 'rgba(0, 0, 0, 0.1)', // Color de fondo opaco
-                        borderRadius: 5, // Bordes redondos
-                        width: '80%', // Ancho completo
-                    }}
+                    sx={{backgroundColor: 'rgba(0, 0, 0, 0.1)',borderRadius: 5, width: '80%', }}
                     InputProps={{
                         sx: {
                             borderRadius: 5, // Bordes redondos

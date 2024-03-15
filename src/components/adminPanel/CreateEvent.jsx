@@ -5,6 +5,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import img from '../../assets/images/img107.jpg'
 
+
 const CreateEvent = () => {
     const [eventName, setEventName] = useState('');
     const [eventDescription, setEventDescription] = useState('');
@@ -34,23 +35,23 @@ const CreateEvent = () => {
                 <Typography sx={{ ml: 2 }}>Organizador del evento</Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                <TextField label="Nombre del evento" value={eventName} onChange={(e) => setEventName(e.target.value)} sx={{ borderRadius: 3, mb: 2 }} fullWidth />
-                <TextField label="Descripción" multiline rows={4} value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} sx={{ borderRadius: 3, mb: 2 }} fullWidth />
-                <TextField label="Fecha y hora del evento" value={eventDateTime} onChange={(e) => setEventDateTime(e.target.value)} sx={{ borderRadius: 3, mb: 2 }} fullWidth />
+                <TextField label="Nombre del evento" value={eventName} onChange={(e) => setEventName(e.target.value)} sx={{ mb: 2 }} InputProps={{ sx: { borderRadius: 5 }, }} fullWidth />
+                <TextField label="Descripción" multiline rows={4} value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} sx={{ mb: 2 }} InputProps={{ sx: { borderRadius: 5 }, }} fullWidth />
+                <TextField label="Fecha y hora del evento" value={eventDateTime} onChange={(e) => setEventDateTime(e.target.value)} sx={{ mb: 2 }} InputProps={{ sx: { borderRadius: 5 }, }} fullWidth />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Button variant="outlined" startIcon={<AccessTimeIcon />}>Establecer hora</Button>
-                    <Button variant="outlined" startIcon={<DateRangeIcon />}>Establecer fecha</Button>
+                    <Button variant="contained" startIcon={<AccessTimeIcon />} sx={{ borderRadius: 3, bgcolor: 'rgb(20, 20, 20)', color: 'common.white' }}>Establecer hora</Button>
+                    <Button variant="contained" startIcon={<DateRangeIcon />} sx={{ borderRadius: 3, bgcolor: 'rgb(20, 20, 20)', color: 'common.white' }}>Establecer fecha</Button>
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <Typography sx={{ flex: 1 }}>Cantidad de entradas:</Typography>
-                <TextField value={ticketCount} onChange={(e) => setTicketCount(e.target.value)} sx={{ flex: 1 }} />
+                <TextField value={ticketCount} onChange={(e) => setTicketCount(e.target.value)} InputProps={{ sx: { borderRadius: 5 }, }} />
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <Typography sx={{ flex: 1 }}>Reservas (mesas):</Typography>
-                <TextField value={tableReservations} onChange={(e) => setTableReservations(e.target.value)} sx={{ flex: 1 }} />
+                <TextField value={tableReservations} onChange={(e) => setTableReservations(e.target.value)} InputProps={{ sx: { borderRadius: 5 }, }} />
             </Box>
-            <Button variant="contained" color="primary" onClick={handleCreateEvent} sx={{ borderRadius: 3, mb: 2 }} fullWidth>CREAR EVENTO</Button>
+            <Button variant="contained" color="primary" onClick={handleCreateEvent} sx={{ borderRadius: 3, mb: 2, bgcolor: 'rgb(20, 20, 20)', color: 'common.white' }} fullWidth>CREAR EVENTO</Button>
             <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}><p>algo</p></Modal>
         </Box>
     );
