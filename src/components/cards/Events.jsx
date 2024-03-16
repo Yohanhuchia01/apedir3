@@ -3,7 +3,7 @@ import { Card, Typography, CardContent, CardMedia } from '@mui/material';
 
 const EventCard = ({ event }) => {
     return (
-        <Card sx={{ width: '300px', height: '400px', position: 'relative' }}>
+        <Card sx={{ width: '100%', height: '400px', position: 'relative' }}>
             <CardMedia
                 sx={{ width: '100%', height: '100%' }}
                 image={event.image}
