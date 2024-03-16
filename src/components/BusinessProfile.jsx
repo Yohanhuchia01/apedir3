@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../services/client';
-import { Box, Grid,Container, Typography, Avatar, BottomNavigation, BottomNavigationAction, Button } from '@mui/material';
+import { Box, Grid, Container, Typography, Avatar, BottomNavigation, BottomNavigationAction, Button } from '@mui/material';
 import { styled } from '@mui/system';
+import CreateEvent from './adminPanel/CreateEvent';
+import EventAdmin from './adminPanel/EventAdmin';
+import BusinessCard from './cards/Business';
+import img from '../assets/images/img107.jpg'
 
 
 const StyledBottomNavigation = styled(BottomNavigation)({
@@ -23,6 +27,12 @@ const StyledBottomNavigationAction = styled(BottomNavigationAction)({
 const BusinessProfile = () => {
   const [value, setValue] = React.useState(0);
   const [business, setBusiness] = useState(null);
+
+  const [currentComponent, setCurrentComponent] = useState(<BusinessCard business={{
+    coverImageUrl: img,
+    profileImageUrl: img,
+    businessName: 'Nombre del negocio'
+  }} />); // Estado para el componente actual
 
   useEffect(() => {
     const fetchBusiness = async () => {
@@ -46,6 +56,38 @@ const BusinessProfile = () => {
     // Aquí debes implementar la lógica para crear un nuevo negocio
   };
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+
+    switch (newValue) {
+      case 0:
+        setCurrentComponent(<BusinessCard business={{
+          coverImageUrl: img,
+          profileImageUrl: img,
+          businessName: 'Nombre del negocio'
+        }} />);
+        break;
+      case 1:
+        setCurrentComponent(<p>jvkkjvk</p>);
+        break;
+      case 2:
+        setCurrentComponent(<p>jvkkjvk</p>);
+        break;
+      case 3:
+        setCurrentComponent(<EventAdmin business={business}/>);
+        break;
+      case 4:
+        navigate('/profile')
+        break;
+      default:
+        setCurrentComponent(<BusinessCard business={{
+          coverImageUrl: img,
+          profileImageUrl: img,
+          businessName: 'Nombre del negocio'
+        }} />);
+    }
+  };
+
   return (
     <Container maxWidth="xl">
       <Box sx={{ flexGrow: 1 }}>
@@ -58,19 +100,15 @@ const BusinessProfile = () => {
             <Typography variant="body2">Plan Premium</Typography>
           </Box>
         </Box>
-        <StyledBottomNavigation
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
-          showLabels
-        >
+        <StyledBottomNavigation value={value} onChange={handleChange} showLabels>
           <StyledBottomNavigationAction label="Dashboard" />
           <StyledBottomNavigationAction label="Negocio" />
           <StyledBottomNavigationAction label="Catálogo" />
           <StyledBottomNavigationAction label="Eventos" />
           <StyledBottomNavigationAction label="Novedades" />
         </StyledBottomNavigation>
+        <Box sx={{ width: '100vw', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{currentComponent}</Box>
+
       </Box>
     </Container>
   );

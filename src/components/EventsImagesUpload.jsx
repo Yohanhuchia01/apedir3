@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const EventsImagesUpload = ({ handleImageUpload }) => {
+    
     const [previewImage, setPreviewImage] = useState(null);
 
     const handleChange = (event) => {

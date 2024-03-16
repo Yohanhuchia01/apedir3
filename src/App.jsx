@@ -20,6 +20,7 @@ import ProductCard from './components/cards/Products';
 import BusinessCard from './components/cards/Business';
 import Category from './components/cards/Category';
 import CreateEvent from './components/adminPanel/CreateEvent';
+import EventCard from './components/cards/Events';
 import './App.css';
 
 function App() {
@@ -67,6 +68,13 @@ function App() {
             }}/>} />
             <Route path="/pruebas3" element={<Category categoryName="Nombre de la categoría" />} />
             <Route path="/pruebas4" element={<CreateEvent />} />
+            <Route path="/pruebas5" element={<EventCard event={{
+              name: 'Nombre del evento',
+              image: img,
+              date: 'Fecha del evento',
+              time: 'Hora del evento',
+              owner: 'Nombre del dueño'
+            }}/>} />
       </Routes>
     </>
   );
