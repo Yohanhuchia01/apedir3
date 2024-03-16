@@ -35,6 +35,7 @@ const ImagesController = () => {
 
     const handleSelectImage = async (event) => {
         const file = event.target.files[0];
+        console.log(file);
         toast.success('Subiendo imagen, espere')
         if (file) {
             const userId = (await supabase.auth.getUser()).data.user.id; // Reemplaza esto con el ID del usuario

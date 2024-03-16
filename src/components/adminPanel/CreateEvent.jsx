@@ -37,6 +37,7 @@ const CreateEvent = ({ business }) => {
 
     const handleImageUpload = (file) => {
         setEventImage(file);
+        console.log(file);
     };
 
     const handleCreateEvent = async () => {
@@ -70,7 +71,7 @@ const CreateEvent = ({ business }) => {
                 const { data: uploadData, error: uploadError } = await supabase
                     .storage
                     .from('images')
-                    .upload(`${userId}/events/${event.name}`, eventImage);
+                    .upload(`${userId}/events/${event.name}`, eventImage, { upsert: true });
 
                 if (uploadError) {
                     console.error('Error uploading image:', uploadError.message);
@@ -89,7 +90,7 @@ const CreateEvent = ({ business }) => {
         <Box sx={{ borderRadius: 3, m: 2 }}>
             <ToastContainer />
             <Box sx={{ width: '100%', height: '200px', bgcolor: 'grey.500', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 3, mb: 2 }}>
-                {eventImage ? <img src={eventImage} alt="Evento" style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: 3 }} /> : <IconButton onClick={() => setIsImageModalOpen(true)}><Edit /></IconButton>}
+                {eventImage ? <img src={URL.createObjectURL(eventImage)} alt="Evento" style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: 3 }} /> : <IconButton onClick={() => setIsImageModalOpen(true)}><Edit /></IconButton>}
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <Avatar src={img} alt="Business" />

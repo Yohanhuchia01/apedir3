@@ -66,7 +66,6 @@ function App() {
               profileImageUrl: img,
               businessName: 'Nombre del negocio'
             }}/>} />
-            <Route path="/pruebas3" element={<Category categoryName="Nombre de la categoría" />} />
             <Route path="/pruebas4" element={<CreateEvent />} />
             <Route path="/pruebas5" element={<EventCard event={{
               name: 'Nombre del evento',
