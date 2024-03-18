@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
+import SearchBar from './utils/SearchBar'; // Asegúrate de que la ruta sea correcta
+import ProvinceSelected from './utils/ProvinceSelected'; // Asegúrate de que la ruta sea correcta
 
 const HomeComp = () => {
   const events = [
@@ -14,8 +16,23 @@ const HomeComp = () => {
     { id: 3, name: 'Product 3', price: 30 },
   ];
 
+  const [selectedProvince, setSelectedProvince] = useState('Todas las provincias');
+
+  const handleSearch = (searchTerm) => {
+    // Aquí puedes manejar la lógica de búsqueda
+  };
+
+  const handleProvinceChange = (event) => {
+    setSelectedProvince(event.target.value);
+    // Aquí puedes manejar la lógica cuando la provincia seleccionada cambia
+  };
+
   return (
     <Box>
+      <Box display="flex" justifyContent="space-between">
+        <SearchBar onSearch={handleSearch} />
+        <ProvinceSelected value={selectedProvince} onChange={handleProvinceChange} />
+      </Box>
       <Typography variant="h2">Events</Typography>
       <List>
         {events.map((event) => (
