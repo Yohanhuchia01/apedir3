@@ -13,7 +13,7 @@ const EventsImagesUpload = ({ handleImageUpload }) => {
         console.log(event.target.files[0]);
         handleImageUpload(file);
         setPreviewImage(URL.createObjectURL(file));
-        toast.success("Imagen cargada correctamente. Puedes continuar creando el evento.");
+        toast.success("Imagen cargada correctamente.");
     };
 
     return (

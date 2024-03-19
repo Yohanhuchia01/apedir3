@@ -6,6 +6,8 @@ import CreateEvent from './adminPanel/CreateEvent';
 import EventAdmin from './adminPanel/EventAdmin';
 import BusinessCard from './cards/Business';
 import img from '../assets/images/img107.jpg'
+import Categories from './CatalogoComp';
+import EditCategory from './cards/EditCategory';
 
 
 const StyledBottomNavigation = styled(BottomNavigation)({
@@ -71,7 +73,7 @@ const BusinessProfile = () => {
         setCurrentComponent(<p>jvkkjvk</p>);
         break;
       case 2:
-        setCurrentComponent(<p>jvkkjvk</p>);
+        setCurrentComponent(<Categories business={business}/>);
         break;
       case 3:
         setCurrentComponent(<EventAdmin business={business}/>);
