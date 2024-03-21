@@ -22,11 +22,35 @@ import Category from './components/cards/Category';
 import CreateEvent from './components/adminPanel/CreateEvent';
 import EventCard from './components/cards/Events';
 import EventClient from './components/cards/EventClient';
+import PostCard from './components/cards/Novedades';
+import CreatePostCard from './components/cards/NovedadesCreate';
 import './App.css';
 
 function App() {
 
   const navigate = useNavigate();
+
+  const post = {
+    avatarSrc: img, // Reemplaza esto con la ruta a la imagen del avatar
+    negocioNombre: 'Nombre del negocio', // Reemplaza esto con el nombre del negocio
+    contenido: 'Contenido del post loreasljdb diasgduias diuasgd asiudg asiudg asiudg aisudg iausdg asuid gaisgd uiasg diasgd uia gdia gsdiagsidg asid g', // Reemplaza esto con el contenido del post
+    onEditarClick: () => {
+        // Aquí va el código para manejar el clic en el botón de editar
+    },
+    onEliminarClick: () => {
+        // Aquí va el código para manejar el clic en el botón de eliminar
+    },
+};
+
+const post2 = {
+  avatarSrc: img, // Reemplaza esto con la ruta a la imagen del avatar
+  onCancelClick: () => {
+      // Aquí va el código para manejar el clic en el botón de cancelar
+  },
+  onPostClick: () => {
+      // Aquí va el código para manejar el clic en el botón de postear
+  },
+};
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
@@ -76,6 +100,8 @@ function App() {
               owner: 'Nombre del dueño'
             }}/>} />
             <Route path="/pruebas6/:eventName" element={<EventClient></EventClient>}></Route>
+            <Route  path="/pruebas7"  element={<PostCard post={post} />}></Route>
+            <Route  path="/pruebas8"  element={<CreatePostCard post={post2} />}></Route>
       </Routes>
     </>
   );

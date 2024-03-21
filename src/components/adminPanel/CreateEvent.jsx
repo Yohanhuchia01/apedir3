@@ -5,7 +5,7 @@ import moment from 'moment';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import img from '../../assets/images/img107.jpg'
-import EventsImagesUpload from '../EventsImagesUpload';
+import EventsImagesUpload from '../ImagesUpload';
 import { ToastContainer, toast } from 'react-toastify';
 import { supabase } from '../../services/client';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,7 +54,7 @@ const CreateEvent = ({ business }) => {
         };
 
         console.log(event)
-        const { data, error } = await supabase
+        const { data: events, error } = await supabase
             .from('events')
             .insert([event]);
 
@@ -62,16 +62,17 @@ const CreateEvent = ({ business }) => {
             console.error('Error creating event:', error.message);
             toast.error('Error creating event: ' + error.message);
         } else {
-            console.log('Event created successfully:', data);
+            console.log('Event created successfully:', events);
             toast.success('Event created successfully');
 
             // Si la creación del evento fue exitosa, sube la imagen al bucket
             if (eventImage) {
-                const userId = (await supabase.auth.getUser()).data.user.id;
+                const filePath = `${business.name}/${event.name}.jpg`;
+
                 const { data: uploadData, error: uploadError } = await supabase
                     .storage
-                    .from('images')
-                    .upload(`${userId}/events/${event.name}`, eventImage, { upsert: true });
+                    .from('feedImages')
+                    .upload(filePath, eventImage, { upsert: true });
 
                 if (uploadError) {
                     console.error('Error uploading image:', uploadError.message);
@@ -79,6 +80,32 @@ const CreateEvent = ({ business }) => {
                 } else {
                     console.log('Image uploaded successfully:', uploadData);
                     toast.success('Image uploaded successfully');
+
+                    // Obtén la URL de la imagen
+                    const { data: urlData, error: urlError } = await supabase
+                        .storage
+                        .from('feedImages')
+                        .getPublicUrl(filePath);
+
+                    if (urlError) {
+                        console.error('Error getting image URL:', urlError.message);
+                        toast.error('Error getting image URL: ' + urlError.message);
+                    } else {
+                        // Actualiza el evento con la URL de la imagen
+
+                        const { data, error: updateError } = await supabase
+                            .from('events')
+                            .update({ 'image_url': urlData.publicUrl })
+                            .eq('name', event.name)
+                            .select()
+                        if (updateError) {
+                            console.error('Error updating event:', updateError.message);
+                            toast.error('Error updating event: ' + updateError.message);
+                        } else {
+                            console.log('Event updated successfully with image URL');
+                            toast.success('Event updated successfully with image URL');
+                        }
+                    }
                 }
             }
         }
@@ -87,7 +114,7 @@ const CreateEvent = ({ business }) => {
     return (
 
 
-        <Box sx={{ borderRadius: 3, m: 2 }}>
+        <Box sx={{ borderRadius: 3, m: 2, }}>
             <ToastContainer />
             <Box sx={{ width: '100%', height: '200px', bgcolor: 'grey.500', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 3, mb: 2 }}>
                 {eventImage ? <img src={URL.createObjectURL(eventImage)} alt="Evento" style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: 3 }} /> : <IconButton onClick={() => setIsImageModalOpen(true)}><Edit /></IconButton>}
