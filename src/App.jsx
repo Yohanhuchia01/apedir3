@@ -21,6 +21,7 @@ import BusinessCard from './components/cards/Business';
 import Category from './components/cards/Category';
 import CreateEvent from './components/adminPanel/CreateEvent';
 import EventCard from './components/cards/Events';
+import EventClient from './components/cards/EventClient';
 import './App.css';
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
               time: 'Hora del evento',
               owner: 'Nombre del dueño'
             }}/>} />
+            <Route path="/pruebas6/:eventName" element={<EventClient></EventClient>}></Route>
       </Routes>
     </>
   );
