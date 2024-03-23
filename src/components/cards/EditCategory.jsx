@@ -5,6 +5,7 @@ import EditProducts from './EditProduct';
 import CreateProduct from './CreateProducts';
 import { Box, styled } from '@mui/system';
 import { supabase } from '../../services/client';
+import LoadingAnimation from '../utils/LoadingAnimation';
 
 const Root = styled('div')(({ theme }) => ({
     marginBottom: theme.spacing(2),
@@ -35,6 +36,8 @@ const AddButton = styled(Button)(({ theme }) => ({
 const EditCategory = ({ category, onDelete, business }) => {
     const [products, setProducts] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const [loading, setLoading] = useState(false); // Nuevo estado para rastrear la carga
+
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -45,24 +48,26 @@ const EditCategory = ({ category, onDelete, business }) => {
     };
 
     const handleAddProduct = async (product) => {
+        setLoading(true);
         const { data, error } = await supabase
             .from('products')
-            .insert([{ 
-                'name': product.name, 
-                'owner': business.name, 
+            .insert([{
+                'name': product.name,
+                'owner': business.name,
                 'category': category.id,
                 'provincia': business.provincia,
-                'precio':product.price
+                'precio': product.price
             }]);
 
         if (error) {
             console.log('Error inserting product:', error);
+            setLoading(false);
         } else {
             // console.log(product.image)
             setProducts([...products, data]);
             // handleCloseModal();
-             // Si la creación del producto fue exitosa, sube la imagen al bucket
-             if (product.image) {
+            // Si la creación del producto fue exitosa, sube la imagen al bucket
+            if (product.image) {
                 const filePath = `${business.name}/${product.name}.jpg`;
 
                 const { data: uploadData, error: uploadError } = await supabase
@@ -73,9 +78,10 @@ const EditCategory = ({ category, onDelete, business }) => {
                 if (uploadError) {
                     console.error('Error uploading image:', uploadError.message);
                     toast.error('Error uploading image: ' + uploadError.message);
+                    setLoading(false);
                 } else {
                     console.log('Image uploaded successfully:', uploadData);
-                    toast.success('Image uploaded successfully');
+                    // toast.success('Image uploaded successfully');
 
                     // Obtén la URL de la imagen
                     const { data: urlData, error: urlError } = await supabase
@@ -85,8 +91,10 @@ const EditCategory = ({ category, onDelete, business }) => {
 
                     if (urlError) {
                         console.error('Error getting image URL:', urlError.message);
-                        toast.error('Error getting image URL: ' + urlError.message);
+                        // toast.error('Error getting image URL: ' + urlError.message);
+                        setLoading(false); 
                     } else {
+                        console.log(urlData)
                         // Actualiza el evento con la URL de la imagen
 
                         const { data, error: updateError } = await supabase
@@ -97,9 +105,11 @@ const EditCategory = ({ category, onDelete, business }) => {
                         if (updateError) {
                             console.error('Error updating event:', updateError.message);
                             // toast.error('Error updating event: ' + updateError.message);
+                            setLoading(false); 
                         } else {
                             console.log('Event updated successfully with image URL');
                             // toast.success('Event updated successfully with image URL');
+                            setLoading(false); 
                         }
                     }
                 }

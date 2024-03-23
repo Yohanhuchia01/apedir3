@@ -63,12 +63,13 @@ const CreateEvent = ({ business }) => {
             toast.error('Error creating event: ' + error.message);
         } else {
             console.log('Event created successfully:', events);
-            toast.success('Event created successfully');
+            // toast.success('Event created successfully');
+
 
             // Si la creación del evento fue exitosa, sube la imagen al bucket
             if (eventImage) {
                 const filePath = `${business.name}/${event.name}.jpg`;
-
+                console.log(eventImage)
                 const { data: uploadData, error: uploadError } = await supabase
                     .storage
                     .from('feedImages')
@@ -76,10 +77,11 @@ const CreateEvent = ({ business }) => {
 
                 if (uploadError) {
                     console.error('Error uploading image:', uploadError.message);
-                    toast.error('Error uploading image: ' + uploadError.message);
+                    // toast.error('Error uploading image: ' + uploadError.message);
                 } else {
+                    console.log(uploadData)
                     console.log('Image uploaded successfully:', uploadData);
-                    toast.success('Image uploaded successfully');
+                    // toast.success('Image uploaded successfully');
 
                     // Obtén la URL de la imagen
                     const { data: urlData, error: urlError } = await supabase
@@ -89,7 +91,7 @@ const CreateEvent = ({ business }) => {
 
                     if (urlError) {
                         console.error('Error getting image URL:', urlError.message);
-                        toast.error('Error getting image URL: ' + urlError.message);
+                        // toast.error('Error getting image URL: ' + urlError.message);
                     } else {
                         // Actualiza el evento con la URL de la imagen
 
@@ -100,10 +102,10 @@ const CreateEvent = ({ business }) => {
                             .select()
                         if (updateError) {
                             console.error('Error updating event:', updateError.message);
-                            toast.error('Error updating event: ' + updateError.message);
+                            // toast.error('Error updating event: ' + updateError.message);
                         } else {
                             console.log('Event updated successfully with image URL');
-                            toast.success('Event updated successfully with image URL');
+                            // toast.success('Event updated successfully with image URL');
                         }
                     }
                 }
