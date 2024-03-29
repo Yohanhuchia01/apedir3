@@ -29,7 +29,7 @@ const FormControl = styled(MuiFormControl)({
 });
 
 const ProvinceSelected = ({ value, onChange }) => {
-    const provinces = ['Todas las provincias', 'Pinar del Río', 'La Habana', 'Matanzas', 'Villa Clara', 'Cienfuegos', 'Sancti Spíritus', 'Ciego de Ávila', 'Camagüey', 'Las Tunas', 'Holguín', 'Granma', 'Santiago de Cuba', 'Guantánamo'];
+    const provinces = ['Todas las provincias', 'Pinar del Río', 'La Habana', 'Matanzas', 'Villa Clara', 'Cienfuegos', 'Sancti Spíritus', 'Ciego de Ávila', 'Camagüey', 'Las Tunas', 'holguin', 'Granma', 'Santiago de Cuba', 'Guantánamo'];
 
     return (
         <RootBox>

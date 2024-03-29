@@ -15,7 +15,7 @@ const CreateProduct = ({ closeModal, createProduct }) => {
             reader.onload = function (e) {
                 setImage(e.target.result);
             };
-            // setImage(event.target.files[0]);
+            setImage(event.target.files[0]);
 
             reader.readAsDataURL(event.target.files[0]);
         }

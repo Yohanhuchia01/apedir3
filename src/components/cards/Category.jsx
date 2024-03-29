@@ -5,10 +5,13 @@ const Category = ({ categoryName }) => {
     return (
         <Box
             sx={{
-                borderRadius: 5, // Ajusta según tus necesidades
+                borderRadius: 10, // Ajusta según tus necesidades
                 bgcolor: 'grey.800',
                 color: 'common.white',
-                p: 2, // Ajusta según tus necesidades
+                p: 1, // Ajusta según tus necesidades
+                height: '40px',
+                width: '80px',
+                textAlign: 'center',
             }}
         >
             {categoryName}

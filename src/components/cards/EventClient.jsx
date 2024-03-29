@@ -64,7 +64,7 @@ const EventClient = () => {
                     <Box>
                         <Typography variant="body2">Mesa</Typography>
                         <Typography variant="h6">{eventData.table}</Typography>
-                    </Box>
+                       </Box>
                     <Box>
                         <Typography variant="body2">Entradas</Typography>
                         <Typography variant="h6">{ticketCount}</Typography>

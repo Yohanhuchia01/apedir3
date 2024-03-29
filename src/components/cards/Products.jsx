@@ -2,17 +2,21 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Button, IconButton, Box } from '@mui/material';
 import { AddShoppingCart } from '@mui/icons-material';
 import StarIcon from '@mui/icons-material/Star';
+import { useNavigate } from 'react-router-dom';
+
 
 const ProductCard = ({ product }) => {
-    const { name, image, rating, price, hasDelivery } = product;
+    const { name, image, rating, precio, hasDelivery } = product;
 
     const handleAddToCart = () => {
         // addToCart(product);
     };
 
+    const navigate = useNavigate();
+
     return (
-        <Card style={{ position: 'relative', borderRadius: '20px' }}>
-            <CardMedia component="img" image={image} alt={name} height="200" />
+        <Card style={{ position: 'relative', borderRadius: '20px', width:'300px' }} onClick={()=>{navigate('/product')}}>
+            <CardMedia component="img" image={image} alt={name} height="100" />
             <IconButton onClick={handleAddToCart} style={{ position: 'absolute', top: 10, right: 10 }}>
                 <AddShoppingCart />
             </IconButton>
@@ -29,7 +33,7 @@ const ProductCard = ({ product }) => {
                     </Box>
                 </Box>
                 <Typography variant="body2">
-                    {price} CUP
+                    {precio} CUP
                 </Typography>
                 <Typography variant="body2" >
                     {hasDelivery ? 'Delivery available' : 'No delivery'}

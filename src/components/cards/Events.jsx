@@ -4,7 +4,7 @@ import { supabase } from '../../services/client';
 
 const EventCard = ({ event }) => {
     return (
-        <Card sx={{ width: '100%', height: '400px', position: 'relative' }}>
+        <Card sx={{ width: '250px', height: '400px', position: 'relative', borderRadius:'20px' }}>
             <CardMedia
                 sx={{ width: '100%', height: '100%' }}
                 image={event.image_url}

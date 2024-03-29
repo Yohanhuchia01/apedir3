@@ -53,27 +53,27 @@ const HomeComp = () => {
   };
 
   return (
-    <Box>
-      <Box display="flex" justifyContent="space-between">
-        <SearchBar onSearch={handleSearch} />
+    <Box sx={{padding:'15px', display:'flex', gap:'15px', flexDirection:'column'}}>
+      <Box display="flex" justifyContent="space-between" flexDirection={'column'}>
         <ProvinceSelected value={selectedProvince} onChange={handleProvinceChange} />
+        <SearchBar onSearch={handleSearch} />
       </Box>
 
-      <Typography variant="h2">Categories</Typography>
-      <Box display="flex" flexWrap="wrap">
+      <Typography variant="h5" >Categories</Typography>
+      <Box display="flex" gap={'10px'}>
         {categories.map((category) => (
           <Category key={category.id} categoryName={category.nameProduct} />
         ))}
       </Box>
 
-      <Typography variant="h2">Products</Typography>
-      <Box display="flex" flexWrap="wrap">
+      <Typography variant="h5">Products</Typography>
+      <Box display="flex" flexWrap="wrap" gap={'10px'}>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </Box>
 
-      <Typography variant="h2">Businesses</Typography>
+      <Typography variant="h5">Businesses</Typography>
       <Box display="flex" flexWrap="wrap">
         {businesses.map((business) => (
           <BusinessCard key={business.id} business={business} />

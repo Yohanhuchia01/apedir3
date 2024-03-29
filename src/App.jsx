@@ -78,6 +78,7 @@ const post2 = {
         <Route path="/plans" element={<Planes />} />
         <Route path="/profile/business" element={<BusinesNotFound />} />
         <Route path="/profile/business/create" element={<CrearNegocio />} />
+        <Route path="/products" element={<Planes />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/pruebas" element={<ProductCard product={{
               name: 'Nombre del producto',
@@ -94,9 +95,9 @@ const post2 = {
             <Route path="/pruebas4" element={<CreateEvent />} />
             <Route path="/pruebas5" element={<EventCard event={{
               name: 'Nombre del evento',
-              image: img,
-              date: 'Fecha del evento',
-              time: 'Hora del evento',
+              image_url: img,
+              fecha: 'Fecha del evento',
+              hora: 'Hora del evento',
               owner: 'Nombre del dueño'
             }}/>} />
             <Route path="/pruebas6/:eventName" element={<EventClient></EventClient>}></Route>
