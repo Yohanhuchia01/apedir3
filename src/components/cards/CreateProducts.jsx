@@ -7,18 +7,22 @@ const CreateProduct = ({ closeModal, createProduct }) => {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState(null);
 
     const handleImageUpload = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            const reader = new FileReader();
+        // if (event.target.files && event.target.files[0]) {
+        //     const reader = new FileReader();
 
-            reader.onload = function (e) {
-                setImage(e.target.result);
-            };
-            setImage(event.target.files[0]);
+        //     reader.onload = function (e) {
+        //         setImage(e.target.result);
+        //     };
+        //     setImage(event.target.files[0]);
 
-            reader.readAsDataURL(event.target.files[0]);
-        }
+        //     reader.readAsDataURL(event.target.files[0]);
+        // }
+        const file = event.target.files[0];
+        setPreview(URL.createObjectURL(file));
+        setImage(file);
     };
 
     const handleCreateProduct = () => {
@@ -46,7 +50,7 @@ const CreateProduct = ({ closeModal, createProduct }) => {
                 marginBottom={2}
             >
                 {image ? (
-                    <img src={image} alt="Product" style={{ width: '100%', height: '100%' }} />
+                    <img src={preview} alt="Product" style={{ width: '100%', height: '100%' }} />
                 ) : (
                     <IconButton component="label" htmlFor="image-upload">
                         <AddPhotoAlternateIcon />

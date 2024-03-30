@@ -24,6 +24,7 @@ import EventCard from './components/cards/Events';
 import EventClient from './components/cards/EventClient';
 import PostCard from './components/cards/Novedades';
 import CreatePostCard from './components/cards/NovedadesCreate';
+import ProductClient from './components/cards/ProductClient';
 import './App.css';
 
 function App() {
@@ -92,6 +93,7 @@ const post2 = {
               profileImageUrl: img,
               businessName: 'Nombre del negocio'
             }}/>} />
+            <Route path="/pruebas3" element={<BusinessProfile />} />
             <Route path="/pruebas4" element={<CreateEvent />} />
             <Route path="/pruebas5" element={<EventCard event={{
               name: 'Nombre del evento',
@@ -103,6 +105,8 @@ const post2 = {
             <Route path="/pruebas6/:eventName" element={<EventClient></EventClient>}></Route>
             <Route  path="/pruebas7"  element={<PostCard post={post} />}></Route>
             <Route  path="/pruebas8"  element={<CreatePostCard post={post2} />}></Route>
+            <Route  path="/pruebas9/:productId"  element={<ProductClient />}></Route>
+ 
       </Routes>
     </>
   );

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../services/client'; // Cliente de Supabase
 import { useNavigate } from 'react-router-dom'; // Hook de navegación
-import { Button, Typography, Paper, BottomNavigation, BottomNavigationAction, Box } from '@mui/material'; // Componentes de Material UI
+import { Button, Typography, Paper, BottomNavigation, BottomNavigationAction, Box, Grid } from '@mui/material'; // Componentes de Material UI
 import HomeIcon from '@mui/icons-material/Home'; // Icono de casa
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'; // Icono de calendario
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Icono de carrito de compras
@@ -10,6 +10,8 @@ import Avatar from '@mui/material/Avatar'; // Componente de Avatar
 import Campaign from '@mui/icons-material/Campaign'; // Icono de campaña
 import HomeComp from '../HomeComp'; // Componente de inicio
 import CartComp from '../CartComp'; // Componente de carrito de compras
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Componentes para mostrar
 const Calendar = () => <Box>Calendar</Box>;
@@ -21,17 +23,19 @@ const Home = () => {
   const [user, setUser] = useState(null) // Estado para el usuario
   const [value, setValue] = useState(0); // Estado para el valor de la navegación
   const [currentComponent, setCurrentComponent] = useState(<HomeComp />); // Estado para el componente actual
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Hook de efecto para verificar la autenticación
   useEffect(() => {
     const checkAuth = async () => {
       const session = await supabase.auth.getSession(); // Obtener la sesión
-      
+
 
       if (!session) {
         console.log('no hay sesión'); // Si no hay sesión, imprimir un mensaje
-        navigate('/login'); 
-        
+        navigate('/login');
+
       } else {
         console.log(session.data.session); // Si hay sesión, imprimir el email del usuario
       }
@@ -70,14 +74,14 @@ const Home = () => {
 
   // Renderizar el componente
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '75px' }}>
       <Box sx={{ width: '100vw', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{currentComponent}</Box>
-      <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ width: '100%', position: 'fixed', bottom: 0 }}>
-        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Calendar" icon={<CalendarTodayIcon />} />
-        <BottomNavigationAction label="Shopping" icon={<ShoppingCartIcon />} />
-        <BottomNavigationAction label="Announcements" icon={<Campaign />} />
-        <BottomNavigationAction label="Profile" icon={<Avatar src={'https://duerpqsxmxeokygbzexa.supabase.co/storage/v1/object/public/images/'+user+'/avatar.jpg'} />} />
+      <BottomNavigation value={value} onChange={handleChange} sx={{ width: '90%', position: 'fixed', bottom: 0, borderRadius: '30px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)' }}>
+        <BottomNavigationAction sx={{ minWidth: 'auto', padding: isMobile ? '6px 0' : '6px 12px' }} icon={<HomeIcon style={{ fontSize: isMobile ? '2em' : '2.5em', color: value === 0 ? 'purple' : 'black' }} />} />
+        <BottomNavigationAction sx={{ minWidth: 'auto', padding: isMobile ? '6px 0' : '6px 12px' }} icon={<CalendarTodayIcon style={{ fontSize: isMobile ? '2em' : '2.5em', color: value === 1 ? 'purple' : 'black' }} />} />
+        <BottomNavigationAction sx={{ minWidth: 'auto', padding: isMobile ? '6px 0' : '6px 12px' }} icon={<ShoppingCartIcon style={{ fontSize: isMobile ? '2em' : '2.5em', color: value === 2 ? 'purple' : 'black' }} />} />
+        <BottomNavigationAction sx={{ minWidth: 'auto', padding: isMobile ? '6px 0' : '6px 12px' }} icon={<Campaign style={{ fontSize: isMobile ? '2em' : '2.5em', color: value === 3 ? 'purple' : 'black' }} />} />
+        <BottomNavigationAction sx={{ minWidth: 'auto', padding: isMobile ? '6px 0' : '6px 12px' }} icon={<Avatar src={'https://duerpqsxmxeokygbzexa.supabase.co/storage/v1/object/public/images/' + user + '/avatar.jpg'} style={{ fontSize: isMobile ? '1em' : '1.5em', border: '2px solid purple' }} />} />
       </BottomNavigation>
     </Box>
   );

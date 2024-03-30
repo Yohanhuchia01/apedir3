@@ -6,6 +6,11 @@ import CreateProduct from './CreateProducts';
 import { Box, styled } from '@mui/system';
 import { supabase } from '../../services/client';
 import LoadingAnimation from '../utils/LoadingAnimation';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 const Root = styled('div')(({ theme }) => ({
     marginBottom: theme.spacing(2),
@@ -14,9 +19,11 @@ const Root = styled('div')(({ theme }) => ({
     margin: theme.spacing(1),
     padding: theme.spacing(2),
     boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.2)', // Sombra definida directamente
+    display: 'flex',
+    flexDirection: 'column',
 }));
 
-const CategoryRow = styled(Grid)(({ theme }) => ({
+const CategoryRow = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -31,12 +38,15 @@ const AddButton = styled(Button)(({ theme }) => ({
     backgroundColor: 'black',
     color: 'white',
     marginBottom: theme.spacing(1),
+    width: 'fit-content',
 }));
 
 const EditCategory = ({ category, onDelete, business }) => {
     const [products, setProducts] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [loading, setLoading] = useState(false); // Nuevo estado para rastrear la carga
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 
     const handleOpenModal = () => {
@@ -68,7 +78,7 @@ const EditCategory = ({ category, onDelete, business }) => {
             // handleCloseModal();
             // Si la creación del producto fue exitosa, sube la imagen al bucket
             if (product.image) {
-                const filePath = `${business.name}/${product.name}.jpg`;
+                const filePath = `${business.name}/products/${product.name}.jpg`;
 
                 const { data: uploadData, error: uploadError } = await supabase
                     .storage
@@ -92,7 +102,7 @@ const EditCategory = ({ category, onDelete, business }) => {
                     if (urlError) {
                         console.error('Error getting image URL:', urlError.message);
                         // toast.error('Error getting image URL: ' + urlError.message);
-                        setLoading(false); 
+                        setLoading(false);
                     } else {
                         console.log(urlData)
                         // Actualiza el evento con la URL de la imagen
@@ -105,11 +115,11 @@ const EditCategory = ({ category, onDelete, business }) => {
                         if (updateError) {
                             console.error('Error updating event:', updateError.message);
                             // toast.error('Error updating event: ' + updateError.message);
-                            setLoading(false); 
+                            setLoading(false);
                         } else {
                             console.log('Event updated successfully with image URL');
                             // toast.success('Event updated successfully with image URL');
-                            setLoading(false); 
+                            setLoading(false);
                         }
                     }
                 }
@@ -136,33 +146,38 @@ const EditCategory = ({ category, onDelete, business }) => {
 
     return (
         <Root>
-            <Grid container spacing={2}>
-                <CategoryRow item xs={12}>
-                    <Box display={'flex'}>
-                        <CategoryName variant="h6">
-                            {category.nameProduct}
-                        </CategoryName>
-                        <IconButton>
-                            <Edit />
+            {loading ? (<Box><p>Creando Producto Nuevo, Espere ..</p><LoadingAnimation /></Box>) : (
+                <>
+                    <CategoryRow>
+                        <Box display={'flex'}>
+                            <CategoryName variant="h6">
+                                {category.nameProduct}
+                            </CategoryName>
+                            <IconButton>
+                                <Edit />
+                            </IconButton>
+                        </Box>
+                        <IconButton onClick={() => onDelete(category.id)}>
+                            <Delete color="error" />
                         </IconButton>
-                    </Box>
-                    <IconButton onClick={() => onDelete(category.id)}>
-                        <Delete color="error" />
-                    </IconButton>
-
-                </CategoryRow>
-                <Grid item xs={12}>
+                    </CategoryRow>
                     <AddButton variant="contained" onClick={handleOpenModal}>
                         Agregar productos
                     </AddButton>
-                </Grid>
-                <Grid item xs={12}>
-                    {/* <EditProducts products={products} />  */}
-                </Grid>
-            </Grid>
-            <Modal open={openModal} onClose={handleCloseModal}>
-                <CreateProduct closeModal={handleCloseModal} createProduct={handleAddProduct} />
-            </Modal>
+                    <Box sx={{ overflow: 'hidden', maxWidth: '100%' }}>
+                        <Carousel showThumbs={false} showIndicators={false} centerMode centerSlidePercentage={33} showArrows>
+                            {products.map((product) => (
+                                <Box m={2} key={product.id}>
+                                    <EditProducts product={product} />
+                                </Box>
+                            ))}
+                        </Carousel>
+                    </Box>
+                    <Modal open={openModal} onClose={handleCloseModal}>
+                        <CreateProduct closeModal={handleCloseModal} createProduct={handleAddProduct} />
+                    </Modal>
+                </>
+            )}
         </Root>
     );
 };

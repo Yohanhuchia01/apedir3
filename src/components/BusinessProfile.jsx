@@ -91,8 +91,8 @@ const BusinessProfile = () => {
   };
 
   return (
-    <Container maxWidth="xl">
-      <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{marginTop:0}}>
+      <Box width="100%" sx={{ flexGrow: 1 }}>
         <Box sx={{ p: 2, backgroundColor: '#555', color: '#fff', display: 'flex', alignItems: 'center' }}>
           <Avatar sx={{ bgcolor: 'secondary.main' }}>Logo</Avatar>
           <Box sx={{ flexGrow: 1 }} />
@@ -109,10 +109,9 @@ const BusinessProfile = () => {
           <StyledBottomNavigationAction label="Eventos" />
           <StyledBottomNavigationAction label="Novedades" />
         </StyledBottomNavigation>
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{currentComponent}</Box>
-
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>{currentComponent}</Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

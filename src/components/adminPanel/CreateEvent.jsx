@@ -68,7 +68,7 @@ const CreateEvent = ({ business }) => {
 
             // Si la creación del evento fue exitosa, sube la imagen al bucket
             if (eventImage) {
-                const filePath = `${business.name}/${event.name}.jpg`;
+                const filePath = `${business.name}/events/${event.name}.jpg`;
                 console.log(eventImage)
                 const { data: uploadData, error: uploadError } = await supabase
                     .storage
