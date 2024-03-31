@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Avatar, Box } from '@mui/material';
-import { supabase } from '../services/client'; // Assuming you have supabase configured
+import { supabase } from '../../services/client'; // Assuming you have supabase configured
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

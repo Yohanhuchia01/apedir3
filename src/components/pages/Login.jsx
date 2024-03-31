@@ -97,9 +97,12 @@ const Login = () => {
                     }}
                     startIcon={<FcGoogle />}
                     onClick={async () => {
-                        const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+                        const { error } = await supabase.auth.signInWithOAuth({
+                            provider: 'google',
+                          })
+                          
                         if (error) console.error(error);
-                        else navigate('/');
+                        else navigate('/hjhjh');
                     }}
                 >
                     Iniciar sesión con Google

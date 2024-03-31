@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Box } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { supabase } from '../../services/client';
-import EventCard from '../cards/Events';
+import { supabase } from '../../../services/client';
+import EventCard from './Events';
 import CreateEvent from './CreateEvent';
 
 const EventAdmin = ({ business }) => {

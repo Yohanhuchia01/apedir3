@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal } from '@mui/material';
-import { supabase } from '../services/client';
-import EditCategory from './cards/EditCategory';
-import CreateCategory from './cards/CreateCategory';
+import { supabase } from '../../../services/client';
+import EditCategory from './EditCategory';
+import CreateCategory from './CreateCategory';
 
 const Categories = ({ business }) => {
     const [categories, setCategories] = useState([]);

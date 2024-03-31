@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Box } from '@mui/material';
 import PersonalProfile from './PersonalProfile';
-import BusinessProfile from './BusinessProfile';
-import CrearNegocio from './adminPanel/CrearNegocio';
+import BusinessProfile from '../../BusinessProfile';
+import CrearNegocio from '../adminPanel/CrearNegocio';
 
 const ProfileComp = () => {
   const [isPersonalProfile, setIsPersonalProfile] = useState(true);

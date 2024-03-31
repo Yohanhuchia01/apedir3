@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Typography, CardContent, CardMedia } from '@mui/material';
-import { supabase } from '../../services/client';
+import { supabase } from '../../../services/client';
 
 const EventCard = ({ event }) => {
     return (

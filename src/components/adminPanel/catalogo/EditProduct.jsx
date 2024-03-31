@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, IconButton, Typography, Avatar, TextField, Modal } from '@mui/material';
 import { Check, Edit, Delete } from '@mui/icons-material';
-import ImagesUpload from '../ImageUpload';
+import ImagesUpload from '../../utils/ImageUpload';
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditProduct = ({ product }) => {

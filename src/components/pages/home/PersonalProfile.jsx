@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState, Suspense } from 'react';
 import { Avatar, Box, Button, Grid, List, ListItem, ListItemText, TextField, Typography, IconButton, Modal } from '@mui/material';
 import { styled } from '@mui/system';
-import { supabase } from '../services/client';
+import { supabase } from '../../../services/client';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
-import LoadingAnimation from './utils/LoadingAnimation';
+import LoadingAnimation from '../../utils/LoadingAnimation';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import ImagesController from './ImagesController';
-const ImagesController = React.lazy(() => import('./ImagesController'));
+const ImagesController = React.lazy(() => import('../../utils/ImagesController'));
 import CloseIcon from '@mui/icons-material/Close';
 
 const BlurredBackground = styled(Box)(({ theme }) => ({
@@ -49,20 +50,20 @@ const PersonalProfile = () => {
       try {
         const userId = (await supabase.auth.getUser()).data.user.id;
         console.log(userId)
-          setId(userId);
-          const { data, error } = await supabase
-            .from('users')
-            .select('name,phone,plan,email,photoUrl').eq('id', userId);
-          if (error) {
-            console.error('Error fetching user profile:', error.message);
-            toast.error('Error fetching user profile: ' + error.message);
-          } else {
-            setUser(data[0]);
-            setName(data[0]?.name);
-            setEmail(data[0]?.email);
-            setPhone(data[0]?.phone);
-            setAvatarUrl(data[0]?.photoUrl)
-          }
+        setId(userId);
+        const { data, error } = await supabase
+          .from('users')
+          .select('name,phone,plan,email,photoUrl').eq('id', userId);
+        if (error) {
+          console.error('Error fetching user profile:', error.message);
+          toast.error('Error fetching user profile: ' + error.message);
+        } else {
+          setUser(data[0]);
+          setName(data[0]?.name);
+          setEmail(data[0]?.email);
+          setPhone(data[0]?.phone);
+          setAvatarUrl(data[0]?.photoUrl)
+        }
       } catch (error) {
         toast.error('Problemas para conectar con el servidor, revise su conexion a internet');
       }
@@ -112,6 +113,9 @@ const PersonalProfile = () => {
       height: '100vh',
       bgcolor: 'background.default'
     }}>
+      <IconButton onClick={() => navigate(-1)}>
+        <ArrowBackIcon />
+      </IconButton>
       <ToastContainer />
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <ProfilePicture src={'https://duerpqsxmxeokygbzexa.supabase.co/storage/v1/object/public/' + avatarUrl || 'defaultAvatar.jpg'} />
@@ -165,10 +169,10 @@ const PersonalProfile = () => {
           <Grid item xs={12} md={6}>
             <TextField label="Teléfono" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth margin="normal" />
           </Grid>
-          <Grid item xs={12} md={6} spacing={2}>
+          <Grid item xs={12} md={6}>
             <ListItemText primary="Plan Actual" secondary={planLevel(user?.plan)} />
             <Grid item xs={12} md={6} >
-              <Button variant="contained" color="primary" onClick={()=>{navigate('/plans')}}>Cambiar Plan</Button>
+              <Button variant="contained" color="primary" onClick={() => { navigate('/plans') }}>Cambiar Plan</Button>
             </Grid>
           </Grid>
         </Grid>

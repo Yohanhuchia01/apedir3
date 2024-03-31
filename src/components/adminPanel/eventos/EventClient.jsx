@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Box, Button, TextField } from '@mui/material';
-import { supabase } from '../../services/client';
-import LoadingAnimation from '../utils/LoadingAnimation';
+import { supabase } from '../../../services/client';
+import LoadingAnimation from '../../utils/LoadingAnimation';
 
 const EventClient = () => {
     const [ticketCount, setTicketCount] = useState(0);

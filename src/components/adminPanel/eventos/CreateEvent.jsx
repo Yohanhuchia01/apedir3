@@ -4,10 +4,9 @@ import { Edit } from '@mui/icons-material';
 import moment from 'moment';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import img from '../../assets/images/img107.jpg'
-import EventsImagesUpload from '../ImagesUpload';
+import EventsImagesUpload from '../../utils/ImagesUpload';
 import { ToastContainer, toast } from 'react-toastify';
-import { supabase } from '../../services/client';
+import { supabase } from '../../../services/client';
 import 'react-toastify/dist/ReactToastify.css';
 
 

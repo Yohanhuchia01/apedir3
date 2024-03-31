@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../services/client';
 import { Box, Grid, Container, Typography, Avatar, BottomNavigation, BottomNavigationAction, Button } from '@mui/material';
 import { styled } from '@mui/system';
-import CreateEvent from './adminPanel/CreateEvent';
-import EventAdmin from './adminPanel/EventAdmin';
+import CreateEvent from './adminPanel/eventos/CreateEvent';
+import EventAdmin from './adminPanel/eventos/EventAdmin';
 import BusinessCard from './cards/Business';
 import img from '../assets/images/img107.jpg'
-import Categories from './CatalogoComp';
-import EditCategory from './cards/EditCategory';
+import Categories from './adminPanel/catalogo/CatalogoComp';
+import EditCategory from './adminPanel/catalogo/EditCategory';
 
 
 const StyledBottomNavigation = styled(BottomNavigation)({
