@@ -251,9 +251,9 @@ const BusinessDataAdmin = ({ business }) => {
                     <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Detalles</Typography>
                     <Box>
                         <IconButton onClick={handleEditClick}>
-                            {isEditable ? <FaCheck /> : <FaEdit />}
+                            {isEditable ? 'Aceptar' : 'Editar'}
                         </IconButton>
-                        {isEditable ? 'Aceptar' : 'Editar'}
+
                     </Box>
                 </Box>
                 <Box sx={{ mt: 2, mb: 2 }}>
@@ -274,6 +274,9 @@ const BusinessDataAdmin = ({ business }) => {
                         <Typography variant="body1" mr={2}>Provincia:</Typography>
                         <Select
                             value={province}
+                            disabled={!isEditable}
+                            variant="standard"
+                            sx={{ '& .MuiInputBase-input': { padding: '10px' } }}
                             onChange={(e) => setProvince(e.target.value)}
                         >
                             {provinces.map((province) => (
