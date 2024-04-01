@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Box } from '@mui/material';
 import PersonalProfile from './PersonalProfile';
-import BusinessProfile from '../../BusinessProfile';
+import BusinessProfile from '../../adminPanel/BusinessProfile';
 import CrearNegocio from '../adminPanel/CrearNegocio';
 
 const ProfileComp = () => {

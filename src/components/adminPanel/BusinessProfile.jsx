@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../services/client';
+import { supabase } from '../../services/client';
 import { Box, Grid, Container, Typography, Avatar, BottomNavigation, BottomNavigationAction, Button } from '@mui/material';
 import { styled } from '@mui/system';
-import CreateEvent from './adminPanel/eventos/CreateEvent';
-import EventAdmin from './adminPanel/eventos/EventAdmin';
-import BusinessCard from './cards/Business';
-import img from '../assets/images/img107.jpg'
-import Categories from './adminPanel/catalogo/CatalogoComp';
-import EditCategory from './adminPanel/catalogo/EditCategory';
+import CreateEvent from './eventos/CreateEvent';
+import EventAdmin from './eventos/EventAdmin';
+import BusinessCard from '../cards/Business';
+import img from '../../assets/images/img107.jpg'
+import Categories from './catalogo/CatalogoComp';
+import EditCategory from './catalogo/EditCategory';
+import NovedadesTab from './novedades/NovedadesTab';
+import BusinessDataAdmin from './negocio/BusinessDataAdmin';
+import LoadingAnimation from '../utils/LoadingAnimation';
 
 
 const StyledBottomNavigation = styled(BottomNavigation)({
@@ -59,7 +62,13 @@ const BusinessProfile = () => {
   };
 
   const handleChange = (event, newValue) => {
+    if (!business) {
+      setValue(null);
+      return;
+    }
+
     setValue(newValue);
+
 
     switch (newValue) {
       case 0:
@@ -70,16 +79,16 @@ const BusinessProfile = () => {
         }} />);
         break;
       case 1:
-        setCurrentComponent(<p>jvkkjvk</p>);
+        setCurrentComponent(<BusinessDataAdmin business={business} />);
         break;
       case 2:
-        setCurrentComponent(<Categories business={business}/>);
+        setCurrentComponent(<Categories business={business} />);
         break;
       case 3:
-        setCurrentComponent(<EventAdmin business={business}/>);
+        setCurrentComponent(<EventAdmin business={business} />);
         break;
       case 4:
-        navigate('/profile')
+        setCurrentComponent(<NovedadesTab business={business}></NovedadesTab>)
         break;
       default:
         setCurrentComponent(<BusinessCard business={{
@@ -91,7 +100,7 @@ const BusinessProfile = () => {
   };
 
   return (
-    <Box sx={{marginTop:0}}>
+    <Box sx={{ marginTop: 0 }}>
       <Box width="100%" sx={{ flexGrow: 1 }}>
         <Box sx={{ p: 2, backgroundColor: '#555', color: '#fff', display: 'flex', alignItems: 'center' }}>
           <Avatar sx={{ bgcolor: 'secondary.main' }}>Logo</Avatar>
@@ -109,7 +118,9 @@ const BusinessProfile = () => {
           <StyledBottomNavigationAction label="Eventos" />
           <StyledBottomNavigationAction label="Novedades" />
         </StyledBottomNavigation>
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>{currentComponent}</Box>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginTop: '20px' }}>
+          {business ? currentComponent : <LoadingAnimation />}
+        </Box>
       </Box>
     </Box>
   );

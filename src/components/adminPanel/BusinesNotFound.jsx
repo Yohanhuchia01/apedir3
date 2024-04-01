@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../services/client';
-import BusinessProfile from '../BusinessProfile';
+import BusinessProfile from './BusinessProfile';
 import NotBusiness from './NotBusiness';
 
 const BusinesNotFound = () => {

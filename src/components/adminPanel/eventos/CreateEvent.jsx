@@ -121,7 +121,7 @@ const CreateEvent = ({ business }) => {
                 {eventImage ? <img src={URL.createObjectURL(eventImage)} alt="Evento" style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: 3 }} /> : <IconButton onClick={() => setIsImageModalOpen(true)}><Edit /></IconButton>}
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Avatar src={img} alt="Business" />
+                {/* <Avatar src={img} alt="Business" /> */}
                 <Typography sx={{ ml: 2 }}>Organizador del evento</Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

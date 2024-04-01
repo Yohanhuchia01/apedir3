@@ -10,7 +10,7 @@ import Verification from './components/pages/Verification';
 import Register from './components/pages/Register';
 import BusinesNotFound from './components/adminPanel/BusinesNotFound';
 import PersonalProfile from './components/pages/home/PersonalProfile';
-import BusinessProfile from './components/BusinessProfile';
+import BusinessProfile from './components/adminPanel/BusinessProfile';
 import CrearNegocio from './components/adminPanel/CrearNegocio';
 import Planes from './components/adminPanel/Planes';
 import { useEffect } from 'react';
