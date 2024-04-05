@@ -336,8 +336,8 @@ const BusinessDataAdmin = ({ business }) => {
                             component="label"
                             style={{
                                 position: 'absolute',
-                                right: 0,
-                                bottom: 0,
+                                right: 20,
+                                bottom: 20,
                                 transform: 'translate(50%, 50%)', // Centra el icono en el borde del Avatar
                                 padding: '5px',
                                 margin: '5px',
