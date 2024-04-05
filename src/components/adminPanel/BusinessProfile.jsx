@@ -105,7 +105,7 @@ const BusinessProfile = () => {
         <Box sx={{ p: 2, backgroundColor: '#555', color: '#fff', display: 'flex', alignItems: 'center' }}>
           <Avatar sx={{ bgcolor: 'secondary.main' }}>Logo</Avatar>
           <Box sx={{ flexGrow: 1 }} />
-          <Avatar sx={{ bgcolor: 'secondary.main' }}>{business?.owner}</Avatar>
+          <Avatar sx={{ bgcolor: 'secondary.main' }} src={business ? business.photo_perfil + '?t=' + Date.now() : ''}></Avatar>
           <Box sx={{ ml: 2 }}>
             <Typography variant="h6">{business?.name}</Typography>
             <Typography variant="body2">Plan Premium</Typography>
