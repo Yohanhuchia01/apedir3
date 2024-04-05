@@ -327,32 +327,31 @@ const BusinessDataAdmin = ({ business }) => {
             {/* la parte de la foto de perfil */}
             <>
                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Foto de perfil</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, }}>
+                <Box sx={{ display: 'grid', alignItems: 'center', justifyItems: 'center', mb: 2, position: 'relative' }}>
                     <Avatar
-                        src={profilePhoto || ''}
-                        sx={{ width: 60, height: 60, mr: 2, position: 'relative' }}
+                        src={profilePhoto + '?t=' + Date.now() || ''}
+                        sx={{ width: 100, height: 100, mr: 2, gridArea: '1 / 1 / 2 / 2' }}
+                    />
+                    <IconButton
+                        component="label"
+                        style={{
+                            gridArea: '1 / 1 / 2 / 2',
+                            justifySelf: 'center', // Alinea el icono a la derecha del Avatar
+                            alignSelf: 'end', // Alinea el icono al final
+                            padding: '5px',
+                            margin: '5px',
+                            borderRadius: '50%',
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // fondo gris transparente
+                            transform: 'translate(60%, 40%)' // Mueve el icono un 20% hacia abajo y a la derecha
+                        }}
                     >
-                        <IconButton
-                            component="label"
-                            style={{
-                                position: 'absolute',
-                                right: 20,
-                                bottom: 20,
-                                transform: 'translate(50%, 50%)', // Centra el icono en el borde del Avatar
-                                padding: '5px',
-                                margin: '5px',
-                                borderRadius: '50%',
-                                backgroundColor: 'rgba(0, 0, 0, 0.5)' // fondo gris transparente
-                            }}
-                        >
-                            <CameraAltIcon style={{ color: 'white' }} />
-                            <input
-                                type="file"
-                                hidden
-                                onChange={(event) => handleFileChange(event, true)}
-                            />
-                        </IconButton>
-                    </Avatar>
+                        <CameraAltIcon style={{ color: 'white' }} />
+                        <input
+                            type="file"
+                            hidden
+                            onChange={(event) => handleFileChange(event, true)}
+                        />
+                    </IconButton>
                 </Box>
                 <BlackDivider />
             </>
@@ -362,7 +361,7 @@ const BusinessDataAdmin = ({ business }) => {
                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Foto de portada</Typography>
                 <Box sx={{ mt: 2, mb: 2, position: 'relative' }}>
                     <img
-                        src={photo || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E'}
+                        src={photo + '?t=' + Date.now() || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E'}
                         alt="Foto de portada"
                         style={{ width: '100%', height: '250px', backgroundColor: 'grey', borderRadius: '20px' }}
                     />
