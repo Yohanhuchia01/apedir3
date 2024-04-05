@@ -1,5 +1,6 @@
 // src/components/adminPanel/negocio/BusinessDataAdmin.jsx
 import { Box, MenuItem, Checkbox, IconButton, Button, Select, TextField, Divider, Avatar, Typography } from '@mui/material';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../../services/client';
 import 'leaflet/dist/leaflet.css';
@@ -34,14 +35,18 @@ const BusinessDataAdmin = ({ business }) => {
 
     const [isEditable, setIsEditable] = useState(false);
     const [name, setName] = useState(business?.name || '');
-    const [province, setProvince] = useState(business?.province || 'Granma');
+    const [provincia, setProvincia] = useState(business?.provincia || 'Granma');
     const [category, setCategory] = useState(business?.category || '');
     const [delivery, setDelivery] = useState(business?.delivery || false);
     const [phone, setPhone] = useState(business?.phone || '');
+    const [categories, setCategories] = useState([]);
     const provinces = ['Pinar del Río', 'La Habana', 'Matanzas', 'Villa Clara', 'Cienfuegos', 'Sancti Spíritus', 'Ciego de Ávila', 'Camagüey', 'Las Tunas', 'Holguìn', 'Granma', 'Santiago de Cuba', 'Guantánamo'];
 
+    const [description, setDescription] = useState(business.description);
+    const [isDescriptionEditable, setIsDescriptionEditable] = useState(false);
 
-
+    const [photo, setPhoto] = useState(business.photo_portada);
+    const [profilePhoto, setProfilePhoto] = useState(business.photo_perfil)
 
 
     const BlackDivider = (props) => <Divider sx={{ backgroundColor: 'black', margin: '10px' }} {...props} />;
@@ -79,12 +84,115 @@ const BusinessDataAdmin = ({ business }) => {
             }
         };
 
+        const fetchCategories = async () => {
+            const { data, error } = await supabase
+                .from('categoryBusiness') // reemplaza 'categoryBusiness' con el nombre de tu tabla
+                .select('*');
+            if (error) {
+                console.error('Error obteniendo las categorías:', error);
+            } else {
+                setCategories(data);
+                console.log(data)
+            }
+        };
+
+        fetchCategories();
         fetchSocialLinks();
         fetchSchedules();
     }, []);
 
+    //parte de la foto de perfil
+
+    //parte de la foto de portada
+    const handleFileChange = async (event, isProfilePhoto) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            // Cargar el archivo en el bucket
+            const filePath = `${business.name}/profile/${isProfilePhoto ? 'profile.jpg' : 'cover.jpg'}`;
+            const { error: uploadError } = await supabase.storage.from('feedImages').upload(filePath, file, { upsert: true });
+
+            if (uploadError) {
+                console.error('Error al cargar el archivo:', uploadError);
+                return;
+            } else {
+                // Obtener la URL del archivo cargado
+                const publicURL = supabase.storage.from('feedImages').getPublicUrl(filePath);
+
+                if (!publicURL) {
+                    console.error('Error al obtener la URL del archivo');
+                } else {
+                    console.log('publicURL:', publicURL.data.publicUrl);
+                    console.log('business.id:', business.id);
+
+                    const { data, error } = await supabase
+                        .from('business')
+                        .update({ [isProfilePhoto ? 'photo_perfil' : 'photo_portada']: publicURL.data.publicUrl })
+                        .eq('id', business.id);
+
+                    if (error) {
+                        console.log('Error al actualizar la foto:', error);
+                    } else {
+                        console.log('Foto actualizada:', data);
+                        if (isProfilePhoto) {
+                            setProfilePhoto(publicURL.data.publicUrl); // Actualizar el estado de la foto de perfil
+                        } else {
+                            setPhoto(publicURL.data.publicUrl); // Actualizar el estado de la foto de portada
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    //parte de la descripcion
+    const handleDescriptionAcceptClick = async () => {
+        if (isDescriptionEditable) {
+            try {
+                const { data, error } = await supabase
+                    .from('business')
+                    .update({ description: description })
+                    .eq('id', business.id);
+
+                if (error) {
+                    throw error;
+                }
+
+                console.log('Descripción actualizada:', data);
+            } catch (error) {
+                console.error('Error al actualizar la descripción:', error);
+            }
+        }
+
+        setIsDescriptionEditable(!isDescriptionEditable);
+    };
+
     // parte de los detalles
-    const handleEditClick = () => {
+    const handleAcceptClick = async () => {
+        console.log('hizo click')
+        if (isEditable) {
+            try {
+                const { data, error } = await supabase
+                    .from('business')
+                    .update({
+                        name: name,
+                        provincia: provincia,
+                        category: category,
+                        delivery: delivery,
+                        phone: phone
+                    })
+                    .eq('id', business.id);
+
+                if (error) {
+                    throw error;
+                }
+
+                console.log('Datos actualizados:', data);
+            } catch (error) {
+                console.error('Error al actualizar los datos:', error);
+            }
+        }
+
         setIsEditable(!isEditable);
     };
 
@@ -153,7 +261,6 @@ const BusinessDataAdmin = ({ business }) => {
         }
     };
 
-
     const handleMarkerDragEnd = async (newPosition) => {
         // Aquí actualizamos la ubicación en la base de datos
         const { error } = await supabase
@@ -220,9 +327,32 @@ const BusinessDataAdmin = ({ business }) => {
             {/* la parte de la foto de perfil */}
             <>
                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Foto de perfil</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Avatar src={business.profileImageUrl || ''} sx={{ width: 60, height: 60, mr: 2 }} />
-                    <Button variant="outlined">Editar foto de perfil</Button>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, }}>
+                    <Avatar
+                        src={profilePhoto || ''}
+                        sx={{ width: 60, height: 60, mr: 2, position: 'relative' }}
+                    >
+                        <IconButton
+                            component="label"
+                            style={{
+                                position: 'absolute',
+                                right: 0,
+                                bottom: 0,
+                                transform: 'translate(50%, 50%)', // Centra el icono en el borde del Avatar
+                                padding: '5px',
+                                margin: '5px',
+                                borderRadius: '50%',
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)' // fondo gris transparente
+                            }}
+                        >
+                            <CameraAltIcon style={{ color: 'white' }} />
+                            <input
+                                type="file"
+                                hidden
+                                onChange={(event) => handleFileChange(event, true)}
+                            />
+                        </IconButton>
+                    </Avatar>
                 </Box>
                 <BlackDivider />
             </>
@@ -230,17 +360,53 @@ const BusinessDataAdmin = ({ business }) => {
             {/* la parte de la foto de portada */}
             <>
                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Foto de portada</Typography>
-                <Box sx={{ mt: 2, mb: 2 }}>
-                    {/* Aquí irá el código para la foto de portada */}
+                <Box sx={{ mt: 2, mb: 2, position: 'relative' }}>
+                    <img
+                        src={photo || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E'}
+                        alt="Foto de portada"
+                        style={{ width: '100%', height: '250px', backgroundColor: 'grey', borderRadius: '20px' }}
+                    />
+                    <IconButton
+                        component="label"
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            bottom: '10px',
+                            padding: '5px',
+                            margin: '5px',
+                            borderRadius: '50%',
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)' // fondo gris transparente
+                        }}
+                    >
+                        <CameraAltIcon style={{ color: 'white' }} />
+                        <input
+                            type="file"
+                            hidden
+                            onChange={handleFileChange}
+                        />
+                    </IconButton>
                 </Box>
                 <BlackDivider />
             </>
-
             {/* la parte de la presentacion */}
             <>
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Presentación</Typography>
+                <Box display={'flex'} justifyContent={'space-between'}>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Presentación</Typography>
+                    <IconButton onClick={handleDescriptionAcceptClick}>
+                        {isDescriptionEditable ? 'Aceptar' : 'Editar'}
+                    </IconButton>
+                </Box>
                 <Box sx={{ mt: 2, mb: 2 }}>
-                    {/* Aquí irá el código para la presentación */}
+                    <TextField
+                        value={description}
+                        disabled={!isDescriptionEditable}
+                        multiline
+                        fullWidth
+                        variant="standard"
+                        onChange={(e) => setDescription(e.target.value)}
+                        sx={{ '& .MuiInputBase-input': { padding: '10px', border: 'none' } }}
+                    />
+
                 </Box>
                 <BlackDivider />
             </>
@@ -250,7 +416,7 @@ const BusinessDataAdmin = ({ business }) => {
                 <Box display={'flex'} justifyContent={'space-between'}>
                     <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Detalles</Typography>
                     <Box>
-                        <IconButton onClick={handleEditClick}>
+                        <IconButton onClick={handleAcceptClick}>
                             {isEditable ? 'Aceptar' : 'Editar'}
                         </IconButton>
 
@@ -273,11 +439,11 @@ const BusinessDataAdmin = ({ business }) => {
                         <FaMapMarkerAlt size={24} style={{ marginRight: '10px' }} />
                         <Typography variant="body1" mr={2}>Provincia:</Typography>
                         <Select
-                            value={province}
+                            value={provincia}
                             disabled={!isEditable}
                             variant="standard"
                             sx={{ '& .MuiInputBase-input': { padding: '10px' } }}
-                            onChange={(e) => setProvince(e.target.value)}
+                            onChange={(e) => setProvincia(e.target.value)}
                         >
                             {provinces.map((province) => (
                                 <MenuItem key={province} value={province}>{province}</MenuItem>
@@ -287,18 +453,31 @@ const BusinessDataAdmin = ({ business }) => {
                     <Box display="flex" alignItems="center">
                         <FaRegListAlt size={24} style={{ marginRight: '10px' }} />
                         <Typography variant="body1" mr={2}>Categoría:</Typography>
-                        <TextField
-                            value={category}
+                        <Select
+                            labelId="category-label"
                             disabled={!isEditable}
+                            id="category-select"
+                            value={category}
                             variant="standard"
-                            onChange={(e) => setCategory(e.target.value)}
                             sx={{ '& .MuiInputBase-input': { padding: '10px' } }}
-                        />
+                            onChange={(event) => setCategory(event.target.value)}
+                        >
+                            {categories.map((category) => (
+                                <MenuItem key={category.id} value={category.id}>
+                                    {/* {console.log(category)} */}
+                                    {category.nameCategory}
+                                </MenuItem>
+                            ))}
+                        </Select>
                     </Box>
                     <Box display="flex" alignItems="center">
                         <FaTruck size={24} style={{ marginRight: '10px' }} />
                         <Typography variant="body1" mr={2}>Delivery:</Typography>
-                        <Checkbox checked={business.delivery} disabled={!isEditable} />
+                        <Checkbox
+                            checked={delivery}
+                            disabled={!isEditable}
+                            onChange={(event) => setDelivery(event.target.checked)}
+                        />
                     </Box>
                     <Box display="flex" alignItems="center">
                         <FaPhoneAlt size={24} style={{ marginRight: '10px' }} />

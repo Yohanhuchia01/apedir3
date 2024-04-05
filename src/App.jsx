@@ -73,7 +73,7 @@ const post2 = {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verification" element={<Verification />} />
-        <Route path="/register" element={<Register />} />
+        {/* <Route path="/register" element={<Register />} /> */}
         <Route path="/profile" element={<PersonalProfile />} />
         <Route path="/plans" element={<Planes />} />
         <Route path="/profile/business" element={<BusinesNotFound />} />

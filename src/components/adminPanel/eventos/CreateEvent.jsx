@@ -114,7 +114,6 @@ const CreateEvent = ({ business }) => {
 
     return (
 
-
         <Box sx={{ borderRadius: 3, m: 2, }}>
             <ToastContainer />
             <Box sx={{ width: '100%', height: '200px', bgcolor: 'grey.500', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 3, mb: 2 }}>

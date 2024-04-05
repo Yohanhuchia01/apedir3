@@ -1,21 +1,25 @@
 // src/components/adminPanel/negocio/BusinessMap.jsx
-import { MapContainer, TileLayer } from 'react-leaflet';
-import DraggableMarker from './DraggableMarker';
+import React, { useState } from 'react';
+import ReactMapGL from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const BusinessMap = ({ initialPosition, onPositionChange }) => {
+    const [viewport, setViewport] = useState({
+        latitude: 40.7128,
+        longitude: -74.0060,
+        zoom: 14
+    });
+
     return (
-        <MapContainer
-            style={{ height: "200px", width: "100%", border: '2px solid black' }}
-            center={initialPosition}
-            zoom={15}
-            attributionControl={false}
-        >
-            <TileLayer
-                url="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-            />
-            <DraggableMarker initialPosition={initialPosition} onDragEnd={onPositionChange} />
-        </MapContainer>
+        <ReactMapGL
+            {...viewport}
+            width="100%"
+            height="100%"
+            onViewportChange={(nextViewport) => setViewport(nextViewport)}
+            mapStyle="mapbox://styles/mapbox/streets-v11"
+            mapboxApiAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+        />
     );
-};
+}
 
 export default BusinessMap;
