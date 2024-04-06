@@ -11,6 +11,7 @@ import EditCategory from './catalogo/EditCategory';
 import NovedadesTab from './novedades/NovedadesTab';
 import BusinessDataAdmin from './negocio/BusinessDataAdmin';
 import LoadingAnimation from '../utils/LoadingAnimation';
+import BusinessDetails from './dashboard/BusinessDetails';
 
 
 const StyledBottomNavigation = styled(BottomNavigation)({
@@ -33,11 +34,7 @@ const BusinessProfile = () => {
   const [value, setValue] = React.useState(0);
   const [business, setBusiness] = useState(null);
 
-  const [currentComponent, setCurrentComponent] = useState(<BusinessCard business={{
-    coverImageUrl: img,
-    profileImageUrl: img,
-    businessName: 'Nombre del negocio'
-  }} />); // Estado para el componente actual
+  const [currentComponent, setCurrentComponent] = useState(<BusinessDetails business={business} />); // Estado para el componente actual
 
   useEffect(() => {
     const fetchBusiness = async () => {
@@ -72,11 +69,7 @@ const BusinessProfile = () => {
 
     switch (newValue) {
       case 0:
-        setCurrentComponent(<BusinessCard business={{
-          coverImageUrl: img,
-          profileImageUrl: img,
-          businessName: 'Nombre del negocio'
-        }} />);
+        setCurrentComponent(<BusinessDetails business={business} />);
         break;
       case 1:
         setCurrentComponent(<BusinessDataAdmin business={business} />);
